@@ -1,0 +1,42 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+
+[[mods]]
+modId="ae2emicraftingforge"
+version="1.0.0"
+displayName="AE2 EMI Crafting Forge"
+credits="Thanks to the AE2 and EMI teams for their amazing mods"
+authors="liansishen"
+description='''
+Adds EMI crafting integration for Applied Energistics 2.
+'''
+
+[[dependencies.ae2emicraftingforge]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.4.1,)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.ae2emicraftingforge]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1]"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.ae2emicraftingforge]]
+    modId="emi"
+    mandatory=true
+    versionRange="[1.1.22,)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.ae2emicraftingforge]]
+    modId="ae2"
+    mandatory=true
+    versionRange="[15.4.2,)"
+    ordering="NONE"
+    side="CLIENT"
+

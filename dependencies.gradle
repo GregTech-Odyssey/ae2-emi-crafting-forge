@@ -1,0 +1,36 @@
+dependencies {
+    compileOnly libs.jetbrains.annotations
+
+    // EMI
+    modImplementation("dev.emi:emi-forge:${emi_version}")
+
+    // AE2
+    modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}") { transitive = false }
+    modImplementation("org.appliedenergistics:guideme:20.1.7")
+
+    // ae2wtlib
+    modRuntimeOnly("curse.maven:applied-energistics-2-wireless-terminals-459929:5217955")
+
+    // Mixin Extras
+    compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.3.2-beta.4"))
+    implementation(jarJar("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:0.3.2-beta.4"))
+    api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
+    annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    // JADE
+    modRuntimeOnly("curse.maven:jade-324717:6106101")
+
+    // Cloth Config
+    modRuntimeOnly("curse.maven:cloth-config-348521:5729105")
+
+    // Curios API
+    modRuntimeOnly("curse.maven:curios-309927:6418456")
+
+    // Architectury API
+    modRuntimeOnly("curse.maven:architectury-api-419699:5137938")
+
+}

@@ -21,7 +21,7 @@ import java.util.Set;
 import static appeng.integration.modules.jeirei.TransferHelper.BLUE_SLOT_HIGHLIGHT_COLOR;
 import static com.hepdd.ae2emicraftingforge.client.helper.rendering.Rendering.*;
 
-public sealed abstract class Result {
+public abstract class Result {
 
     /**
      * @return null doesn't override the default tooltip.

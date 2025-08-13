@@ -17,6 +17,10 @@ public final class EmiStackHelper {
 
     @Nullable
     public static GenericStack toGenericStack(EmiStack emiStack) {
+        if (emiStack == EmiStack.EMPTY) {
+            return null;
+        }
+
         for (var converter : EmiStackConverters.getConverters()) {
             var stack = converter.toGenericStack(emiStack);
             if (stack != null) {

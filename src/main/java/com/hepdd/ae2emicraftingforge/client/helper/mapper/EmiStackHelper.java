@@ -75,9 +75,11 @@ public final class EmiStackHelper {
         if (emiIngredient.isEmpty()) {
             return Collections.emptyList();
         }
+        var originAmount = emiIngredient.getAmount();
 
         return emiIngredient.getEmiStacks()
                 .stream()
+                .map(s -> s.setAmount(originAmount))
                 .map(EmiStackHelper::toGenericStack)
                 .filter(Objects::nonNull)
                 .toList();

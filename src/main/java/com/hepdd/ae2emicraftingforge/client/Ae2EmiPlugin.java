@@ -18,9 +18,6 @@ import com.hepdd.ae2emicraftingforge.client.handler.Ae2PatternTerminalHandler;
 import com.hepdd.ae2emicraftingforge.client.handler.generic.Ae2BaseDragHandler;
 import com.hepdd.ae2emicraftingforge.client.handler.generic.Ae2BaseScreenExclusionZones;
 import com.hepdd.ae2emicraftingforge.client.handler.generic.Ae2BaseStackProvider;
-import com.hepdd.ae2emicraftingforge.client.helper.mapper.EmiFluidStackConverter;
-import com.hepdd.ae2emicraftingforge.client.helper.mapper.EmiItemStackConverter;
-import com.hepdd.ae2emicraftingforge.client.helper.mapper.EmiStackConverters;
 import com.hepdd.ae2emicraftingforge.client.recipes.Ae2ChargerRecipe;
 import com.hepdd.ae2emicraftingforge.client.recipes.Ae2CondenserRecipe;
 import com.hepdd.ae2emicraftingforge.client.recipes.Ae2EntropyManipulatorRecipe;
@@ -28,18 +25,17 @@ import com.hepdd.ae2emicraftingforge.client.recipes.Ae2InscriberRecipe;
 import com.hepdd.ae2emicraftingforge.client.recipes.Ae2RecipeHolder;
 import com.hepdd.ae2emicraftingforge.client.recipes.Ae2TransformRecipe;
 import com.hepdd.ae2emicraftingforge.client.recipes.category.Ae2CategoryHolder;
+import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.EmiStack;
 
+@EmiEntrypoint
 public class Ae2EmiPlugin implements EmiPlugin {
 
     @Override
     public void register(EmiRegistry registry) {
-        EmiStackConverters.register(new EmiItemStackConverter());
-        EmiStackConverters.register(new EmiFluidStackConverter());
-
         registry.addGenericExclusionArea(new Ae2BaseScreenExclusionZones());
         registry.addGenericStackProvider(new Ae2BaseStackProvider());
         registry.addGenericDragDropHandler(new Ae2BaseDragHandler());

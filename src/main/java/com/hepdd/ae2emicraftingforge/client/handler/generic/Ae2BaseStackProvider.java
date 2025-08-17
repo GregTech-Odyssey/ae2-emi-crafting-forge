@@ -16,6 +16,9 @@ public class Ae2BaseStackProvider implements EmiStackProvider<Screen> {
             if (stack != null) {
                 var emiStack = EmiStackHelper.toEmiStack(stack.stack());
                 if (emiStack != null) {
+                    if (emiStack.getAmount() == 0) {
+                        emiStack.setAmount(1);
+                    }
                     return new EmiStackInteraction(emiStack);
                 }
             }

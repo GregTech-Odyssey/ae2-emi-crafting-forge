@@ -13,6 +13,7 @@ import com.hepdd.ae2emicraftingforge.client.handler.generic.Ae2BaseRecipeHandler
 import com.hepdd.ae2emicraftingforge.client.helper.mapper.EmiStackHelper;
 import com.hepdd.ae2emicraftingforge.client.helper.rendering.Result;
 import dev.emi.emi.api.recipe.EmiRecipe;
+import dev.emi.emi.api.recipe.handler.EmiCraftContext;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -83,5 +84,10 @@ public class Ae2PatternTerminalHandler<T extends PatternEncodingTermMenu> extend
             result.add(stacks);
         }
         return result;
+    }
+
+    @Override
+    public boolean canCraft(EmiRecipe recipe, EmiCraftContext<T> context) {
+        return true;
     }
 }

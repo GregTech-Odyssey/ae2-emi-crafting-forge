@@ -1,0 +1,9 @@
+{
+  "ae2-emi-crafting-forge.category_condenser": "物质聚合器",
+  "ae2-emi-crafting-forge.category_inscriber": "压印器",
+  "ae2-emi-crafting-forge.category_attunement": "P2P通道调谐",
+  "ae2-emi-crafting-forge.category_transform": "世界交互",
+  "ae2-emi-crafting-forge.category_charger": "充能器",
+  "ae2-emi-crafting-forge.category_entropy_manipulator": "熵变机械臂",
+  "ae2-emi-crafting-forge.error.crafting.storage_terminal": "不兼容该合成表"
+}

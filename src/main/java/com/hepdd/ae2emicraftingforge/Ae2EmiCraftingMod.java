@@ -1,7 +1,6 @@
 package com.hepdd.ae2emicraftingforge;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -16,8 +15,6 @@ public class Ae2EmiCraftingMod {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public Ae2EmiCraftingMod(FMLJavaModLoadingContext context) {
-        IEventBus modEventBus = context.getModEventBus();
-
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }

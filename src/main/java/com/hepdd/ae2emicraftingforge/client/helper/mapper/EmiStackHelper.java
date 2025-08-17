@@ -1,10 +1,19 @@
 package com.hepdd.ae2emicraftingforge.client.helper.mapper;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Fluid;
+
+import appeng.api.stacks.AEFluidKey;
+import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
-import com.hepdd.ae2emicraftingforge.Ae2EmiCraftingMod;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.FluidEmiStack;
+import dev.emi.emi.api.stack.ItemEmiStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -15,71 +24,46 @@ public final class EmiStackHelper {
 
     private EmiStackHelper() {}
 
-    @Nullable
-    public static GenericStack toGenericStack(EmiStack emiStack) {
-        if (emiStack == EmiStack.EMPTY) {
-            return null;
+    private static GenericStack toGenericStack(Object key, CompoundTag nbt, long amount) {
+        if (key instanceof Item item) {
+            return new GenericStack(AEItemKey.of(item, nbt), amount);
+        } else if (key instanceof Fluid fluid) {
+            return new GenericStack(AEFluidKey.of(fluid, nbt), amount);
         }
-
-        for (var converter : EmiStackConverters.getConverters()) {
-            var stack = converter.toGenericStack(emiStack);
-            if (stack != null) {
-                return stack;
-            }
-        }
-
-        if (emiStack != null) {
-            Ae2EmiCraftingMod.LOGGER.error("================ Missing Converter Error =================");
-            Ae2EmiCraftingMod.LOGGER.error("Couldn't find a  GenericStack converter for EmiStack: " + emiStack.getItemStack());
-            Ae2EmiCraftingMod.LOGGER.error("Please report this to the developers");
-            Ae2EmiCraftingMod.LOGGER.error("https://github.com/blocovermelho/ae2-emi-crafting");
-            Ae2EmiCraftingMod.LOGGER.error("================ Missing Converter Error =================");
-        }
-
         return null;
     }
 
     @Nullable
-    public static EmiStack toEmiStack(GenericStack stack) {
-        for (var converter : EmiStackConverters.getConverters()) {
-            var emiStack = converter.toEmiStack(stack);
-            if (emiStack != null) {
-                return emiStack;
-            }
-        }
-
-        if (stack.what() != null) {
-            Ae2EmiCraftingMod.LOGGER.error("================ Missing Converter Error =================");
-            Ae2EmiCraftingMod.LOGGER.error(":k AeKey is " + stack.what().getClass());
-            Ae2EmiCraftingMod.LOGGER.error("Couldn't find a EmiStack converter for AeKey: " + stack.what().toTagGeneric().toString());
-            Ae2EmiCraftingMod.LOGGER.error("Please report this to the developers");
-            Ae2EmiCraftingMod.LOGGER.error("https://github.com/blocovermelho/ae2-emi-crafting");
-            Ae2EmiCraftingMod.LOGGER.error("================ Missing Converter Error =================");
-        }
-
-        return null;
+    public static GenericStack toGenericStack(@NotNull EmiStack emiStack) {
+        if (emiStack.isEmpty()) return null;
+        return toGenericStack(emiStack.getKey(), emiStack.getNbt(), emiStack.getAmount());
     }
 
-    public static List<List<GenericStack>> ofInputs(EmiRecipe emiRecipe) {
-        return emiRecipe.getInputs().stream().map(EmiStackHelper::of).toList();
-    }
-
-    public static List<GenericStack> ofOutputs(EmiRecipe emiRecipe) {
-        return emiRecipe.getOutputs().stream()
-                .map(EmiStackHelper::toGenericStack)
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-    private static List<GenericStack> of(EmiIngredient emiIngredient) {
+    public static List<GenericStack> toGenericStack(@NotNull EmiIngredient emiIngredient) {
         if (emiIngredient.isEmpty()) {
             return Collections.emptyList();
         }
         var originAmount = emiIngredient.getAmount();
+        return emiIngredient.getEmiStacks().stream().map(s -> toGenericStack(s.getKey(), s.getNbt(), originAmount)).filter(Objects::nonNull).toList();
+    }
 
-        return emiIngredient.getEmiStacks()
-                .stream()
-                .map(s -> s.setAmount(originAmount))
+    @Nullable
+    public static EmiStack toEmiStack(@NotNull GenericStack stack) {
+        AEKey key = stack.what();
+        if (key instanceof AEItemKey itemKey) {
+            return new ItemEmiStack(itemKey.getItem(), itemKey.getTag(), stack.amount());
+        } else if (key instanceof AEFluidKey fluidKey) {
+            return new FluidEmiStack(fluidKey.getFluid(), fluidKey.getTag(), stack.amount());
+        }
+        return null;
+    }
+
+    public static List<List<GenericStack>> ofInputs(EmiRecipe emiRecipe) {
+        return emiRecipe.getInputs().stream().map(EmiStackHelper::toGenericStack).toList();
+    }
+
+    public static List<GenericStack> ofOutputs(EmiRecipe emiRecipe) {
+        return emiRecipe.getOutputs().stream()
                 .map(EmiStackHelper::toGenericStack)
                 .filter(Objects::nonNull)
                 .toList();

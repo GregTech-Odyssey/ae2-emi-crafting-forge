@@ -32,8 +32,11 @@ public class RecipeUtils {
     public static Map<Integer, Ingredient> getGuiSlotToIngredientMap(Recipe<?> recipe) {
         NonNullList<Ingredient> ingredients = recipe.getIngredients();
         int width;
+        boolean widthFlag = false, heightFlag = false;
         if (recipe instanceof ShapedRecipe shapedRecipe) {
             width = shapedRecipe.getWidth();
+            widthFlag = width == 1 && shapedRecipe.getHeight() > 1;
+            heightFlag = shapedRecipe.getHeight() == 1 && width > 1;
         } else {
             width = 3;
         }
@@ -41,7 +44,7 @@ public class RecipeUtils {
         HashMap<Integer, Ingredient> result = new HashMap<>(ingredients.size());
 
         for (int i = 0; i < ingredients.size(); ++i) {
-            int guiSlot = i / width * 3 + i % width;
+            int guiSlot = i / (width) * 3 + i % width + (widthFlag ? 1 : 0) + (heightFlag ? 3 : 0);
             Ingredient ingredient = ingredients.get(i);
             if (!ingredient.isEmpty()) {
                 result.put(guiSlot, ingredient);

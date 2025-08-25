@@ -1,6 +1,5 @@
 package com.hepdd.ae2emicraftingforge.client.helper.rendering;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
@@ -17,7 +16,6 @@ import dev.emi.emi.api.widget.Widget;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -98,19 +96,10 @@ public abstract class Result {
 
         @Override
         public List<Component> getTooltip(EmiRecipe emiRecipe, EmiCraftContext<?> context) {
-            List<Component> gatheredTooltips = new ArrayList<>();
-            var anyCatalyst = !emiRecipe.getCatalysts().isEmpty();
-            if (anyCatalyst) {
-                gatheredTooltips.add(Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst").withStyle(ChatFormatting.GREEN));
-                gatheredTooltips.add(Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst.virtual").withStyle(ChatFormatting.DARK_GREEN));
-            }
             var anyCraftable = emiRecipe.getInputs().stream()
                     .anyMatch(ing -> isCraftable(craftableKeys, ing));
             if (anyCraftable) {
-                gatheredTooltips.addAll(TransferHelper.createEncodingTooltip(true));
-            }
-            if (anyCatalyst || anyCraftable) {
-                return gatheredTooltips;
+                return TransferHelper.createEncodingTooltip(true);
             }
             return null;
         }

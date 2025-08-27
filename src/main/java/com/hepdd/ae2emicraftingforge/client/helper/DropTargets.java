@@ -10,6 +10,8 @@ import appeng.core.sync.network.NetworkHandler;
 import appeng.core.sync.packets.InventoryActionPacket;
 import appeng.helpers.InventoryAction;
 import appeng.menu.slot.FakeSlot;
+import com.almostreliable.merequester.client.RequestSlot;
+import com.almostreliable.merequester.platform.Platform;
 import com.google.common.primitives.Ints;
 import com.hepdd.ae2emicraftingforge.client.helper.interfaces.DropTarget;
 
@@ -45,8 +47,12 @@ public final class DropTargets {
             var itemStack = wrapFilterAsItem(stack);
 
             if (slot.canSetFilterTo(itemStack)) {
-                NetworkHandler.instance().sendToServer(new InventoryActionPacket(InventoryAction.SET_FILTER,
-                        slot.index, itemStack));
+                if (slot instanceof RequestSlot requestSlot) {
+                    Platform.sendDragAndDrop(requestSlot.getRequesterReference().getRequesterId(), requestSlot.getSlot(), itemStack);
+                } else {
+                    NetworkHandler.instance().sendToServer(new InventoryActionPacket(InventoryAction.SET_FILTER,
+                            slot.index, itemStack));
+                }
                 return true;
             }
 

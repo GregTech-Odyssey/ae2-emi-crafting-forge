@@ -8,6 +8,8 @@ dependencies {
     modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}") { transitive = false }
     modImplementation("org.appliedenergistics:guideme:20.1.7")
 
+    modImplementation("curse.maven:merequester-688367:5689932")
+
     // ae2wtlib
     modRuntimeOnly("curse.maven:applied-energistics-2-wireless-terminals-459929:5217955")
 
